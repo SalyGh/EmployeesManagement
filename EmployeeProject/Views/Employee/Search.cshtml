@@ -1,0 +1,149 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+@using EmployeeProject.ViewModels; 
+
+@model EmployeeViewModel 
+
+<div class="container-xl">
+	<div class="table-responsive">
+
+		
+
+
+	</div>
+</div>
+
+<div class="table-wrapper">
+	<div class="input-group">
+		<div class="table-title">
+			<div class="row">
+				<div class="col-sm-7">
+					<br />
+					<br />
+					<h2 style="text-align: center;">Search</h2>
+
+				</div>
+				
+				<br />
+				<br />
+				<br />
+				</
+			</div>
+		</div>
+	</div>
+
+	<br />
+	<br />
+	<div class="input-group rounded">
+
+		<input id="livesearchtags" type="search" name="livesearchtags" autocomplete="off" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+
+
+	</div>
+	<br />
+	<br />
+
+</div>
+
+<table class="table table-striped table-hover">
+	<thead>
+		<tr>
+			<th>
+
+			</th>
+			<th>Name</th>
+			<th>Hire Date</th>
+			<th>Basic Salary</th>
+			<th>Allowance</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+
+	<tbody id="result">
+
+		@foreach (var employee in Model.EmployeesList)
+		{
+			<tr>
+				<td>
+				</td>
+				<td>@employee.Name</td>
+				<td> @employee.HireDate.Value.ToShortDateString() </td>
+				<td>@employee.BasicSalary</td>
+				<td>@employee.Allowance</td>
+				<td>
+					
+					<a asp-route-id="@employee.Id" asp-controller="Employee" asp-action="EnsureDelete"><i class="material-icons" data-toggle="tooltip" title="EnsureDelete">&#xE872;</i></a>
+					<a asp-route-id="@employee.Id" asp-controller="Employee" asp-action="Update" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+				</td>
+			</tr>
+
+		}
+
+
+	</tbody>
+</table>
+
+		</div>
+	</div>
+	</div>
+	</div>
+
+
+
+<script>
+
+
+	document.getElementById('livesearchtags').addEventListener('keyup', function (e) {
+		//Run LiveSearch on ever key up
+
+		LiveSearch();
+	});
+
+
+
+	function LiveSearch() {
+		
+		//Get the input value
+		let value = document.getElementById('livesearchtags').value
+
+		$.ajax({
+			type: "POST",
+			// You can use the absolute url eg www.site.com/MyControllerName/LiveTagSearch or the relative path live below
+			url: "/Employee/Search",
+			// Attach the value to a parameter called search
+			data: { Name: value },
+			datatype: "html",
+			success: function (data) {
+				$("#result").children().remove();
+				
+				
+				console.log(data)
+
+				$.each(data.employeesList , function (key, value) {
+					console.log(value.id);
+					var today = new Date(value.hireDate);
+					var dd = today.getDate();
+					var mm = today.getMonth() + 1; 
+					var yyyy = today.getFullYear();
+					var today = mm + '/' + dd + '/' + yyyy;
+					
+				
+					var table = '<tr> <td>' + '</td> <td>' + value.name + '</td> <td>' + today + '</td> <td>' + value.basicSalary + '</td><td>' + value.allowance + '</td> <td><a href = "EnsureDelete\\' + value.id + '"> <i class="material-icons"> &#xE872; </i> </a> <a href = "Update\\' + value.id + '"> <i class="material-icons"> &#xE254; </i> </a> </td > </tr>'
+					$('#result').append(table
+
+					);
+
+				})
+
+
+
+			}
+		});
+	}
+
+
+</script>

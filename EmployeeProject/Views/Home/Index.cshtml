@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Employee Management System</h1>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <p> You are not Authenticated Please <a asp-controller="Account" asp-action="Login">Login to Your Account</a>.</p>
+    }
+    else
+    {
+        <p> Welcome ! <a asp-controller="Employee" asp-action="Index">View Your Employees </a>.</p>
+        
+    }
+
+</div>

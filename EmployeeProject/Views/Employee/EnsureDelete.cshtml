@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using EmployeeProject.ViewModels;
+@model EmployeeViewModel
+
+<div class="alert alert-danger" role="alert">
+    Are you Sure You Want to Delete @Model.employeeDto.Name From the database
+    @Model.employeeDto.Id
+</div>
+
+<form method="post" asp-controller="Employee" asp-action="Delete">
+    <input type="hidden" asp-for="employeeDto.Id" name="employee_Id" />
+    <input type="hidden" id="Id" name="Id" value="@Model.employeeDto.Id" />
+    <div>
+        <input type="submit" value="Delete" style="margin-right: 30px; " />
+
+        <button asp-controller="Employee" asp-action="Index">Cancel</button>
+    </div>
+</form>
+
